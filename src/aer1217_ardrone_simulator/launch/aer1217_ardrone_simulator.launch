@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Launch file to start the AR.Drone 2.0 simulator for AER1217 -->
+<!-- UTIAS CARRE AER1217 - Winter 2017 
+-->
+
+<launch>
+  <arg name="rvizconfig" default="$(find aer1217_ardrone_simulator)/rviz/ardrone.rviz"/>
+
+  <!-- Launch the world generation -->
+  <include file="$(find aer1217_ardrone_simulator)/launch/aer1217_world.launch">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="paused" value="false"/>
+    <arg name="gui" value="false"/>
+  </include>
+
+  <!-- ROS node that publishes quadrotor desired positions (desired_positions.py)-->
+  <node name="desired_positions" pkg="aer1217_ardrone_simulator"
+   type="desired_positions.py" output="screen" required="True"/>
+
+
+  <!--ROS node that controls the AR Drone (aer1217_roscontroller.py) -->
+  <node name="aer1217_roscontroller" pkg="aer1217_ardrone_simulator"
+   type="aer1217_roscontroller.py" output="screen" required="True"/>
+
+
+  <!-- Create ROS node that simulates the AR Drone 2 and the VICON system.
+  It subscribes to desired roll angle, pitch angle, yaw rate, climb rate
+   and publishes current position and attitude -->
+  <node name="lab_interface" pkg="aer1217_ardrone_simulator"
+    type="indoor_robotics_lab_interface.py" output="screen" required="True"/>
+
+
+  <node name="keyboard_controller" pkg="aer1217_ardrone_simulator"
+    type="keyboard_controller.py" output="screen" required="True"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/>
+</launch>

@@ -1,0 +1,8 @@
+prefix=/home/thurteen/aer1217/labs/devel
+
+Name: aer1217_ardrone_simulator
+Description: Description of aer1217_ardrone_simulator
+Version: 0.0.0
+Cflags: -I/home/thurteen/aer1217/labs/devel/include
+Libs: -L/home/thurteen/aer1217/labs/devel/lib 
+Requires: message_runtime
